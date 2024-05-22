@@ -1,6 +1,7 @@
 export class Board {
   width;
   height;
+  block;
   constructor(width, height) {
       this.width = width;
       this.height = height;
