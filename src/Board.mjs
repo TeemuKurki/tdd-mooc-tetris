@@ -2,10 +2,12 @@ export class Board {
   width;
   height;
   block;
+  falling;
   constructor(width, height) {
       this.width = width;
       this.height = height;
       this.block = [[-1,-1], ""]
+      this.falling = false
   }
 
   drop(icon) {
@@ -13,14 +15,19 @@ export class Board {
         throw "already falling"
     }
     this.block = [[1,0], icon]
- }
+    this.falling = true
+}
 
  tick(){
     if(this.block[0][1] > -1) {
         this.block[0][1] += 1
     }
  }
-
+ 
+  hasFalling(){
+    return this.falling
+  }
+ 
   toString() {
     let board = ""
     for (let y = 0; y < this.height; y++) {
