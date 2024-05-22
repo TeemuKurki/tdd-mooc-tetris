@@ -13,19 +13,25 @@ class Shape {
     constructor(shape){
         this.shape = shape
     }
-    rotateRight() {
+    rotate(direction) {
         const rotatedShape = createEmptyShape(this.shape);
         for (let y = 0; y < this.shape.length; y++) {
             const row = this.shape[y]
             for (let x = 0; x < row.length; x++) {
-                rotatedShape[x][row.length - 1 - y] = this.shape[y][x]
+                const dir = direction === "right" ? [x,row.length - 1 - y] : [row.length - 1 - x, y]  
+                rotatedShape[dir[0]][dir[1]] = this.shape[y][x]
             }
             
         }
         return new Shape(rotatedShape.map(row => row.join("")))
     }
+
+    rotateRight(){
+        return this.rotate("right")
+    }
+
     rotateLeft(){
-        return this.rotateRight().rotateRight().rotateRight()
+        return this.rotate("left")
     }
 
     toString() {
