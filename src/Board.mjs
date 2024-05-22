@@ -20,17 +20,20 @@ export class Board {
   }
 
   drop(icon) {
-    if(this.block[0][1] > -1) {
+    if(this.falling) {
         throw "already falling"
     }
     this.block = [[1,0], icon]
     this.falling = true
+    this.blockAtBottom = false
+    
 }
 
  tick(){
     if(this.block[0][1] > -1 && this.block[0][1] !== this.height -1) {
         this.block[0][1] += 1
     }
+    // Allow falling one tick after touching bottom
     if(this.blockAtBottom){
         this.falling = false
     }   
@@ -47,8 +50,9 @@ export class Board {
     let board = ""
     for (let y = 0; y < this.height; y++) {
         for (let x = 0; x < this.width; x++) {
-            if(x === this.block[0][0] && y === this.block[0][1]){
-                board += this.block[1]
+            const match = this.blocks.find(block => x === block[0][0] && y === block[0][1]) 
+            if(match){
+                board += match[1]
             }
             else {
                 board += "."
