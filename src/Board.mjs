@@ -21,12 +21,12 @@ export class Board {
 }
 
  tick(){
-    if(this.block[0][1] > -1) {
+    if(this.block[0][1] > -1 && this.block[0][1] !== this.height -1) {
         this.block[0][1] += 1
     }
     if(this.blockAtBottom){
         this.falling = false
-    }
+    }   
     if(this.block[0][1] === this.height -1){
         this.blockAtBottom = true
     } 
