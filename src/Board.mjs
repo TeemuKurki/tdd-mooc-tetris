@@ -3,11 +3,13 @@ export class Board {
   height;
   block;
   falling;
+  blockAtBottom;
   constructor(width, height) {
       this.width = width;
       this.height = height;
       this.block = [[-1,-1], ""]
       this.falling = false
+      this.blockAtBottom = false
   }
 
   drop(icon) {
@@ -22,6 +24,12 @@ export class Board {
     if(this.block[0][1] > -1) {
         this.block[0][1] += 1
     }
+    if(this.blockAtBottom){
+        this.falling = false
+    }
+    if(this.block[0][1] === this.height -1){
+        this.blockAtBottom = true
+    } 
  }
  
   hasFalling(){
