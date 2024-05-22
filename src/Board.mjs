@@ -1,15 +1,22 @@
 export class Board {
   width;
   height;
-  block;
+  blocks;
   falling;
   blockAtBottom;
   constructor(width, height) {
       this.width = width;
       this.height = height;
-      this.block = [[-1,-1], ""]
+      this.blocks = [[[-1,-1], ""]]
       this.falling = false
       this.blockAtBottom = false
+  }
+
+  get block(){
+    return this.blocks[this.blocks.length-1]
+  }
+  set block(position){
+    this.blocks.push(position)
   }
 
   drop(icon) {
