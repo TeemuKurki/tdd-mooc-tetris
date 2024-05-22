@@ -8,6 +8,9 @@ export class Board {
   }
 
   drop(icon) {
+    if(this.block[0][1] > -1) {
+        throw "already falling"
+    }
     this.block = [[1,0], icon]
  }
 
