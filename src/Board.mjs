@@ -11,6 +11,12 @@ export class Board {
     this.block = [[1,0], icon]
  }
 
+ tick(){
+    if(this.block[0][1] > -1) {
+        this.block[0][1] += 1
+    }
+ }
+
   toString() {
     let board = ""
     for (let y = 0; y < this.height; y++) {
