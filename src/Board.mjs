@@ -1,22 +1,26 @@
 export class Board {
   width;
   height;
-  initialRow;
   constructor(width, height) {
       this.width = width;
       this.height = height;
-      this.initialRow = "...\n"
+      this.block = [[-1,-1], ""]
   }
 
   drop(icon) {
-    this.initialRow = `.${icon}.\n`
+    this.block = [[1,0], icon]
  }
 
   toString() {
-    let board = this.initialRow
-    for (let y = 1; y < this.height; y++) {
+    let board = ""
+    for (let y = 0; y < this.height; y++) {
         for (let x = 0; x < this.width; x++) {
-            board += "."
+            if(x === this.block[0][0] && y === this.block[0][1]){
+                board += this.block[1]
+            }
+            else {
+                board += "."
+            }
         }
         board += "\n"
     }
