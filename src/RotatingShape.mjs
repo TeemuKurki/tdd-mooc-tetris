@@ -24,6 +24,10 @@ class Shape {
         }
         return new Shape(rotatedShape.map(row => row.join("")))
     }
+    rotateLeft(){
+        return this.rotateRight().rotateRight().rotateRight()
+    }
+
     toString() {
         return this.shape.flat().join("\n") + "\n"
     }
