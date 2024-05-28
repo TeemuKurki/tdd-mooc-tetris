@@ -14,9 +14,16 @@ class Shape {
         this.shape = shape
     }
 
+    get #dimensions(){
+        return {
+            width: this.shape[0].length,
+            height: this.shape.length
+        }
+    }
+
     rotate(direction) {
         const rotatedShape = createEmptyShape(this.shape);
-        for (let col = 0; col < this.shape[0].length; col++) {
+        for (let col = 0; col < this.#dimensions.height; col++) {
             const row = this.shape[col]
             for (let cell = 0; cell < row.length; cell++) {
                 const dir = direction === "right" ? [cell,row.length - 1 - col] : [row.length - 1 - cell, col]  
