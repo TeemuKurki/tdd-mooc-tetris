@@ -21,7 +21,6 @@ class Shape {
                 const dir = direction === "right" ? [x,row.length - 1 - y] : [row.length - 1 - x, y]  
                 rotatedShape[dir[0]][dir[1]] = this.shape[y][x]
             }
-            
         }
         return new Shape(rotatedShape.map(row => row.join("")))
     }
