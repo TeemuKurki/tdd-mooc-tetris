@@ -23,11 +23,11 @@ class Shape {
 
     rotate(direction) {
         const rotatedShape = createEmptyShape(this.shape);
-        for (let col = 0; col < this.#dimensions.height; col++) {
-            const row = this.shape[col]
-            for (let cell = 0; cell < row.length; cell++) {
-                const dir = direction === "right" ? [cell,row.length - 1 - col] : [row.length - 1 - cell, col]  
-                rotatedShape[dir[0]][dir[1]] = this.shape[col][cell]
+        for (let row_index = 0; row_index < this.#dimensions.height; row_index++) {
+            const row = this.shape[row_index]
+            for (let col_index = 0; col_index < row.length; col_index++) {
+                const [new_row, new_col] = direction === "right" ? [col_index,row.length - 1 - row_index] : [row.length - 1 - col_index, row_index]  
+                rotatedShape[new_row][new_col] = this.shape[row_index][col_index]
             }
         }
         return new Shape(rotatedShape.map(row => row.join("")))
