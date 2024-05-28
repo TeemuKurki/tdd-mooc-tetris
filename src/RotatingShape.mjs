@@ -13,13 +13,14 @@ class Shape {
     constructor(shape){
         this.shape = shape
     }
+
     rotate(direction) {
         const rotatedShape = createEmptyShape(this.shape);
-        for (let y = 0; y < this.shape.length; y++) {
-            const row = this.shape[y]
-            for (let x = 0; x < row.length; x++) {
-                const dir = direction === "right" ? [x,row.length - 1 - y] : [row.length - 1 - x, y]  
-                rotatedShape[dir[0]][dir[1]] = this.shape[y][x]
+        for (let col = 0; col < this.shape[0].length; col++) {
+            const row = this.shape[col]
+            for (let cell = 0; cell < row.length; cell++) {
+                const dir = direction === "right" ? [cell,row.length - 1 - col] : [row.length - 1 - cell, col]  
+                rotatedShape[dir[0]][dir[1]] = this.shape[col][cell]
             }
         }
         return new Shape(rotatedShape.map(row => row.join("")))
