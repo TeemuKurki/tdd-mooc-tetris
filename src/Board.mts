@@ -3,12 +3,14 @@ type Block = { x: number; y: number; icon: string[][] };
 export class Board {
   width: number;
   height: number;
+  board: string[][];
   block: Block;
   prevBlocks: Block[];
   falling: boolean;
   constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
+    this.board = Array(height).fill(Array(width).fill("."));
     this.block = { x: 0, y: 0, icon: [["."]] };
     this.prevBlocks = [];
     this.falling = false;
