@@ -20,7 +20,11 @@ export class Board {
   }
 
   tick() {
-    this.block.y++;
+    if (this.block.y === this.height - 1) {
+      this.falling = false;
+    } else {
+      this.block.y++;
+    }
   }
 
   hasFalling() {
