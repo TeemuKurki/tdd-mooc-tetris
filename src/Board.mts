@@ -1,7 +1,9 @@
+type Block = {x: number, y: number, icon: string}
+
 export class Board {
   width: number;
   height: number;
-  block: {x: number, y: number, icon: string};
+  block: Block;
   falling: boolean;
   constructor(width: number, height: number) {
       this.width = width;
