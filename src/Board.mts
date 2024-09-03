@@ -32,8 +32,10 @@ export class Board {
     const abovePrevBlock = this.prevBlocks.some(
       (prevBlock) => prevBlock.x === this.block.x && prevBlock.y === this.block.y + 1
     );
-    if (this.block.y === this.height - 1 || abovePrevBlock) {
+    if (this.block.y === this.height - this.block.icon.length || abovePrevBlock) {
       this.falling = false;
+      const deleted = this.block.icon.splice(this.block.icon.length - 1, 1);
+      this.block.icon.unshift(deleted[0]);
       this.prevBlocks.push(this.block);
     } else {
       this.block.y++;
