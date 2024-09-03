@@ -1,8 +1,10 @@
 export class RotatingShape {
   rows: string[];
+  orientations: number;
   orientation: number;
-  constructor(rows: string[], orientation = 0) {
+  constructor(rows: string[], orientations = 4, orientation = 0) {
     this.rows = rows;
+    this.orientations = orientations;
     this.orientation = orientation
   }
   static fromString(input: string) {
@@ -14,11 +16,14 @@ export class RotatingShape {
       const columns = this.rows.map(row => row[shapeRowIndex])
       return columns.reverse().join("")
     });
-    return new RotatingShape(rotated, (this.orientation + 1) % 4);
+    return new RotatingShape(rotated, this.orientations, (this.orientation + 1) % 4);
   }
 
   rotateLeft() {
-    return this.rotateRight().rotateRight().rotateRight();
+    if(this.orientations === 4) {
+      return this.rotateRight().rotateRight().rotateRight();
+    }
+    return this;
   }
 
   toString() {
