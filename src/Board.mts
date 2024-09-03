@@ -7,6 +7,10 @@ export class Board {
     this.height = height;
   }
 
+  drop(icon: string) {
+    throw new Error("Not implemented");
+  }
+
   toString() {
     let result = "";
     for (let row = 0; row < this.height; row++) {
