@@ -19,9 +19,13 @@ export class Board {
     this.block = {x: center, y: 0, icon};
   }
 
-    tick() {
-        this.block.y++;
-    }
+  tick() {
+    this.block.y++;
+  }
+
+  hasFalling() {
+    return this.falling;
+  }
 
   toString() {
     let result = "";
