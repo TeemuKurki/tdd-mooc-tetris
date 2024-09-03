@@ -9,7 +9,8 @@ export class Board {
   }
 
   drop(icon: string) {
-    throw new Error("Not implemented");
+    const center = Math.floor(this.width / 2);
+    this.block = {x: center, y: 0, icon};
   }
 
   toString() {
