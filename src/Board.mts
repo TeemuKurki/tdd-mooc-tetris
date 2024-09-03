@@ -30,7 +30,7 @@ export class Board {
 
   tick() {
     const abovePrevBlock = this.prevBlocks.some(
-      (prevBlock) => prevBlock.x === this.block.x && prevBlock.y === this.block.y + 1
+      (prevBlock) => prevBlock.y - prevBlock.icon.filter((x) => x.every((c) => c === ".")).length === this.block.y + 1
     );
     if (this.block.y === this.height - this.block.icon.length || abovePrevBlock) {
       this.falling = false;
