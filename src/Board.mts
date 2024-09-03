@@ -33,6 +33,11 @@ export class Board {
       this.block.x--;
     }
   }
+  moveRight() {
+    if (this.block.x + this.block.icon[0].length < this.width && this.hasFalling()) {
+      this.block.x++;
+    }
+  }
 
   tick() {
     const abovePrevBlock = this.prevBlocks.some(
