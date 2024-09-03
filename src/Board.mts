@@ -47,6 +47,17 @@ export class Board {
     }
   }
 
+  createBoard() {
+    const board: string[][] = [];
+    for (let row = 0; row < this.height; row++) {
+      board.push([]);
+      for (let column = 0; column < this.width; column++) {
+        board[row].push(".");
+      }
+    }
+    return board;
+  }
+
   toString() {
     let result = "";
     for (let row = 0; row < this.height; row++) {
