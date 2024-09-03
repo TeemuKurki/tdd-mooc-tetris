@@ -7,6 +7,13 @@ export class RotatingShape {
     return new RotatingShape(input.split("\n").map(row => row.trim()));
   }
 
+  rotateRight() { 
+    const rotated = this.rows.map((_, shapeRowIndex) => {
+      const columns = this.rows.map(row => row[shapeRowIndex])
+      return columns.reverse().join("")
+    });
+    return new RotatingShape(rotated);
+  }
   toString() {
     return this.rows.join("\n") + "\n";
   }
