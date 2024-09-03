@@ -14,6 +14,11 @@ export class RotatingShape {
     });
     return new RotatingShape(rotated);
   }
+
+  rotateLeft() {
+    return this.rotateRight().rotateRight().rotateRight();
+  }
+
   toString() {
     return this.rows.join("\n") + "\n";
   }
