@@ -35,7 +35,7 @@ describe("Moving tetrominoes", () => {
         ..........`
       );
     });
-    test("Do not tetromine move outsite borders", () => {
+    test("Do not move tetromine outsite borders", () => {
       board.drop(Tetromino.T_SHAPE);
       move(10, () => {
         board.moveLeft();
@@ -63,13 +63,80 @@ describe("Moving tetrominoes", () => {
         ..........`
       );
     });
-    test("Do not moove at bottom", () => {
+    test("Do not move at bottom", () => {
       board.drop(Tetromino.T_SHAPE);
       move(10, () => {
         board.tick();
       });
       move(10, () => {
         board.moveLeft();
+      });
+      expect(board.toString()).to.equalShape(
+        `..........
+        ..........
+        ..........
+        ..........
+        ....T.....
+        ...TTT....`
+      );
+    });
+  });
+  describe("Move to right", () => {
+    test("Move tetromine right", () => {
+      board.drop(Tetromino.T_SHAPE);
+      expect(board.toString()).to.equalShape(
+        `....T.....
+        ...TTT....
+        ..........
+        ..........
+        ..........
+        ..........`
+      );
+      board.moveRight();
+      expect(board.toString()).to.equalShape(
+        `.....T....
+        ....TTT...
+        ..........
+        ..........
+        ..........
+        ..........`
+      );
+    });
+    test("Do not move tetromine outsite borders", () => {
+      board.drop(Tetromino.T_SHAPE);
+      move(10, () => {
+        board.moveRight();
+      });
+      expect(board.toString()).to.equalShape(
+        `........T.
+        .......TTT
+        ..........
+        ..........
+        ..........
+        ..........`
+      );
+    });
+    test("Allow moving during drop", () => {
+      board.drop(Tetromino.T_SHAPE);
+      board.tick();
+      board.tick();
+      board.moveRight();
+      expect(board.toString()).to.equalShape(
+        `..........
+        ..........
+        .....T....
+        ....TTT...
+        ..........
+        ..........`
+      );
+    });
+    test("Do not moove at bottom", () => {
+      board.drop(Tetromino.T_SHAPE);
+      move(10, () => {
+        board.tick();
+      });
+      move(10, () => {
+        board.moveRight();
       });
       expect(board.toString()).to.equalShape(
         `..........
