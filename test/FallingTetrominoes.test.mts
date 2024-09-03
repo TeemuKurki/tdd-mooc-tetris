@@ -1,4 +1,3 @@
-/*
 import { beforeEach, describe, test } from "vitest";
 import { expect } from "chai";
 import { Board } from "../src/Board.mjs";
@@ -11,7 +10,7 @@ function fallToBottom(board) {
 }
 
 describe("Falling tetrominoes", () => {
-  let board;
+  let board: Board;
   beforeEach(() => {
     board = new Board(10, 6);
   });
@@ -59,4 +58,3 @@ describe("Falling tetrominoes", () => {
     );
   });
 });
-*/

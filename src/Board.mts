@@ -1,3 +1,5 @@
+import { RotatingShape } from "./RotatingShape.mjs";
+
 type Block = { x: number; y: number; icon: string[][] };
 
 export class Board {
@@ -16,13 +18,14 @@ export class Board {
     this.falling = false;
   }
 
-  drop(icon: string) {
+  drop(input: string | RotatingShape) {
+    const icon = typeof input === "string" ? [[input]] : input.rows.map((r) => r.split(""));
     if (this.falling) {
       throw new Error("already falling");
     }
     this.falling = true;
-    const center = Math.floor(this.width / 2);
-    this.block = { x: center, y: 0, icon: [[icon]] };
+    const center = Math.floor(this.width / 2) - (icon.length - 1);
+    this.block = { x: center, y: 0, icon };
   }
 
   tick() {
