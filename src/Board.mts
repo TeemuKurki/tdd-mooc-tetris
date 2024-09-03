@@ -4,11 +4,13 @@ export class Board {
   width: number;
   height: number;
   block: Block;
+  prevBlocks: Block[];
   falling: boolean;
   constructor(width: number, height: number) {
       this.width = width;
       this.height = height;
       this.block = {x: 0, y: 0, icon: "."};
+      this.prevBlocks = [];
       this.falling = false;
   }
 
@@ -24,6 +26,7 @@ export class Board {
   tick() {
     if (this.block.y === this.height - 1) {
       this.falling = false;
+      this.prevBlocks.push(this.block);
     } else {
       this.block.y++;
     }
