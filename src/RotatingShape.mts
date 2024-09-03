@@ -23,6 +23,14 @@ export class RotatingShape {
     if(this.orientations === 4) {
       return this.rotateRight().rotateRight().rotateRight();
     }
+    if(this.orientations === 2) {
+      if(this.orientation === this.orientations - 1){
+        return this.rotateRight().rotateRight().rotateRight();
+      }else {
+        return this.rotateRight()
+
+      }
+    }
     return this;
   }
 
