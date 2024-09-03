@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { Board } from "../src/Board.mjs";
 
 describe("Falling blocks", () => {
-  let board;
+  let board: Board;
   beforeEach(() => {
     board = new Board(3, 3);
   });
