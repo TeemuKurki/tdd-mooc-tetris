@@ -24,7 +24,8 @@ export class Board {
   }
 
   tick() {
-    if (this.block.y === this.height - 1) {
+    const abovePrevBlock = this.prevBlocks.some(prevBlock => prevBlock.x === this.block.x && prevBlock.y === this.block.y + 1);
+    if (this.block.y === this.height - 1 || abovePrevBlock) {
       this.falling = false;
       this.prevBlocks.push(this.block);
     } else {
@@ -40,7 +41,10 @@ export class Board {
     let result = "";
     for (let row = 0; row < this.height; row++) {
       for (let column = 0; column < this.width; column++) {
-        if (this.block.x === column && this.block.y === row) {
+        const prev = this.prevBlocks.find(prevBlock => prevBlock.x === column && prevBlock.y === row)
+        if (prev) {
+          result += prev.icon;
+        } else if (this.block.x === column && this.block.y === row) {
           result += this.block.icon;
         } else {
           result += ".";
