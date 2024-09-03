@@ -13,6 +13,10 @@ export class Board {
     this.block = {x: center, y: 0, icon};
   }
 
+    tick() {
+        this.block.y++;
+    }
+
   toString() {
     let result = "";
     for (let row = 0; row < this.height; row++) {
