@@ -39,6 +39,14 @@ export class Board {
     return this.falling;
   }
 
+  insertBlock(board: string[][], block: string[][], startRow: number, startCol: number) {
+    for (let i = 0; i < block.length; i++) {
+      for (let j = 0; j < block[i].length; j++) {
+        board[startRow + i][startCol + j] = block[i][j];
+      }
+    }
+  }
+
   toString() {
     let result = "";
     for (let row = 0; row < this.height; row++) {
