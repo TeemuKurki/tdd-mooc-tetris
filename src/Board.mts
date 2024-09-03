@@ -28,6 +28,12 @@ export class Board {
     this.block = { x: center, y: 0, icon };
   }
 
+  moveLeft() {
+    if (this.block.x > 0 && this.hasFalling()) {
+      this.block.x--;
+    }
+  }
+
   tick() {
     const abovePrevBlock = this.prevBlocks.some(
       (prevBlock) => prevBlock.y - prevBlock.icon.filter((x) => x.every((c) => c === ".")).length === this.block.y + 1
