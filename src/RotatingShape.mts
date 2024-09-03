@@ -11,23 +11,26 @@ export class RotatingShape {
     return new RotatingShape(input.split("\n").map(row => row.trim()));
   }
 
-  rotateRight() { 
+  rotateRight(bypass?: boolean): RotatingShape {
+    const orientation = (this.orientation + 1) % this.orientations;
+    if(orientation === 0 && !bypass) return this.rotateLeft(true)
     const rotated = this.rows.map((_, shapeRowIndex) => {
       const columns = this.rows.map(row => row[shapeRowIndex])
       return columns.reverse().join("")
     });
-    return new RotatingShape(rotated, this.orientations, (this.orientation + 1) % 4);
+    return new RotatingShape(rotated, this.orientations, orientation);
   }
 
-  rotateLeft() {
+
+  rotateLeft(bypass?: boolean): RotatingShape {
     if(this.orientations === 4) {
-      return this.rotateRight().rotateRight().rotateRight();
+      return this.rotateRight(bypass).rotateRight(bypass).rotateRight(bypass);
     }
     if(this.orientations === 2) {
       if(this.orientation === this.orientations - 1){
-        return this.rotateRight().rotateRight().rotateRight();
+        return this.rotateRight(bypass).rotateRight(bypass).rotateRight(bypass);
       }else {
-        return this.rotateRight()
+        return this.rotateRight(bypass)
 
       }
     }
