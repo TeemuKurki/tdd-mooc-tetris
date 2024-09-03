@@ -61,20 +61,11 @@ export class Board {
   }
 
   toString() {
-    let result = "";
-    for (let row = 0; row < this.height; row++) {
-      for (let column = 0; column < this.width; column++) {
-        const prev = this.prevBlocks.find((prevBlock) => prevBlock.x === column && prevBlock.y === row);
-        if (prev) {
-          result += prev.icon;
-        } else if (this.block.x === column && this.block.y === row) {
-          result += this.block.icon;
-        } else {
-          result += ".";
-        }
-      }
-      result += "\n";
-    }
-    return result;
+    const board = this.createBoard();
+    this.prevBlocks.forEach((block) => {
+      this.insertBlock(board, block.icon, block.y, block.x);
+    });
+    this.insertBlock(board, this.block.icon, this.block.y, this.block.x);
+    return board.map((b) => b.join("")).join("\n") + "\n";
   }
 }
