@@ -58,6 +58,10 @@ export class Board {
     }
   }
 
+  moveDown() {
+    this.tick()
+  }
+
   private moveBlocked(x?: number, y?: number): boolean {
     return this.prevBlocks.some((prevBlock) => {
       return prevBlock.reserved.some(([px, py]) => {
