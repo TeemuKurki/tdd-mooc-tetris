@@ -44,19 +44,23 @@ export class Board {
     this.block.reserved = this.calculateReserverd();
   }
 
-  moveLeft() {
+  moveLeft(): boolean {
     const leftEnd = Math.min(...this.block.reserved.map(([x]) => x));  
     if (leftEnd > 0 && !this.moveBlocked(-1,0) && this.hasFalling()) {
       this.block.x--;
       this.block.reserved = this.calculateReserverd();
+      return true;
     }
+    return false
   }
-  moveRight() {
+  moveRight(): boolean {
     const rightEnd = Math.max(...this.block.reserved.map(([x]) => x));
     if (rightEnd + 1 < this.width && !this.moveBlocked(1,0) && this.hasFalling()) {
       this.block.x++;
       this.block.reserved = this.calculateReserverd();
+      return true;
     }
+    return false
   }
 
   moveDown() {
