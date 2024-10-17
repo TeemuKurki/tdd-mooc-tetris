@@ -67,17 +67,21 @@ export class Board {
     this.tick()
   }
 
-  rotateBlockRight(){
+  rotateBlockRight(): boolean{
     if (this.hasFalling()) {
       this.block.shape = this.block.shape.rotateRight();
       this.block.reserved = this.calculateReserverd();
+      return true;
     }
+    return false;
   }
-  rotateBlockLeft(){
+  rotateBlockLeft(): boolean{
     if (this.hasFalling()) {
       this.block.shape = this.block.shape.rotateLeft();
       this.block.reserved = this.calculateReserverd();
+      return true
     }
+    return false;
   }
   
   private moveBlocked(x?: number, y?: number): boolean {
