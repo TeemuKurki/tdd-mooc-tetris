@@ -79,10 +79,6 @@ export class Board {
 
     if (atBottom || aboveReservedCell) {
       this.falling = false;
-      while (this.block.icon.at(-1)?.every((s) => s === ".")) {
-        const deleted = this.block.icon.splice(this.block.icon.length - 1, 1);
-        this.block.icon.unshift(deleted[0]);
-      }
       this.prevBlocks.push(this.block);
     } else {
       this.block.y++;
