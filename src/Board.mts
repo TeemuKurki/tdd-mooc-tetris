@@ -92,6 +92,11 @@ export class Board {
       }
     }
   }
+  insertResrvedBlock(board: string[][], icon: string, reserved: [x: number, y: number][]) {
+    reserved.forEach(([x, y]) => {
+      board[y][x] = icon;
+    })
+  }
 
   createBoard() {
     const board: string[][] = [];
