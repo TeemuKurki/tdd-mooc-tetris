@@ -41,4 +41,10 @@ export class RotatingShape {
   toBlock() {
     return this.rows.map((row) => row.split(""))
   }
+  get height(){
+    return this.rows.length;
+  }
+  get width(){
+    return this.rows[0].length;
+  }
 }

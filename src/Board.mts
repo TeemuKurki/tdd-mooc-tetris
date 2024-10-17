@@ -38,10 +38,9 @@ export class Board {
     if (this.falling) {
       throw new Error("already falling");
     }
-    const block = input.toBlock();
     this.falling = true;
-    const center = Math.floor(this.width / 2) - (block.length - 1);
-    this.block = { x: center, y: 0, icon: block, reserved: [] };
+    const center = Math.floor(this.width / 2) - (input.height - 1);
+    this.block = { x: center, y: 0, icon: input.toBlock(), reserved: [] };
     this.block.reserved = this.calculateReserverd();
   }
 
