@@ -410,4 +410,35 @@ describe("Wallkick tests", () => {
         OO........`
     );
   })
+  test("Will not rotate if no space", () => {
+    const board = new Board(10, 6);
+    repeat(2, () => {
+      board.drop(Tetromino.O_SHAPE);
+      repeat(4, () => {
+        board.moveLeft();
+      })
+      repeat(5, () => {
+        board.tick();
+      });
+    })
+    repeat(2, () => {
+      board.drop(Tetromino.O_SHAPE);
+      repeat(5, () => {
+        board.tick();
+      })
+    })
+    board.drop(shape);
+    board.rotateBlockRight();
+    board.tick();
+    board.tick();
+    board.rotateBlockRight();
+    expect(board.toString()).to.equalShape(
+      `..........
+        ..........
+        OO.IOO....
+        OO.IOO....
+        OO.IOO....
+        OO.IOO....`
+    );
+  })
 });
