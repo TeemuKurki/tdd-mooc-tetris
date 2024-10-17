@@ -199,7 +199,7 @@ describe("Moving tetrominoes", () => {
       ); 
     });
   });
-  describe.skip("Mode down", () => {
+  describe("Move down", () => {
     test("Move tetromine down", () => {
       board.drop(Tetromino.T_SHAPE);
       expect(board.toString()).to.equalShape(
