@@ -62,6 +62,38 @@ describe("The T shape", () => {
         ..........`
     );
   })
+  test("Can be rotated left while falling", () => {
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockLeft()
+    expect(board.toString()).to.equalShape(
+      `..........
+        ....T.....
+        ...TT.....
+        ....T.....
+        ..........
+        ..........`
+    );
+  })
+  test("Rotated block keep falling until bottom", () => {
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockRight();
+    board.rotateBlockRight();
+    board.tick();
+    board.tick();
+    board.tick();
+    expect(board.toString()).to.equalShape(
+      `..........
+        ..........
+        ..........
+        ..........
+        ...TTT....
+        ....T.....`
+    );
+  })
 });
 
 describe("The I shape", () => {
@@ -97,6 +129,70 @@ describe("The I shape", () => {
     );
   });
 
+  test("Can be rotated right while falling", () => {
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockRight()
+    expect(board.toString()).to.equalShape(
+      `..........
+        ...I......
+        ...I......
+        ...I......
+        ...I......
+        ..........`
+    );
+  })
+  test("Can be rotated left while falling", () => {
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockLeft()
+    expect(board.toString()).to.equalShape(
+      `..........
+        ...I......
+        ...I......
+        ...I......
+        ...I......
+        ..........`
+    );
+  })
+  test("Rotated block keep falling until bottom", () => {
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockRight();
+    board.tick();
+    board.tick();
+    board.tick();
+    expect(board.toString()).to.equalShape(
+      `..........
+        ..........
+        ...I......
+        ...I......
+        ...I......
+        ...I......`
+    );
+  })
+
+  test.skip("Will wall kick when rotated right", () => {
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockRight();
+    board.moveLeft();
+    board.moveLeft();
+    board.moveLeft();
+    expect(board.toString()).to.equalShape(
+      `..........
+        ...I......
+        ...I......
+        ...I......
+        ...I......
+        ..........`
+    );
+  })
+  
   test("has 2 distinct orientations", () => {
     expect(distinctOrientations(shape).size).to.equal(2);
   });

@@ -53,7 +53,7 @@ export class Board {
   }
   moveRight() {
     const rightEnd = Math.max(...this.block.reserved.map(([x]) => x));
-    if (rightEnd + this.block.shape.width < this.width && !this.moveBlocked(1,0) && this.hasFalling()) {
+    if (rightEnd + 1 < this.width && !this.moveBlocked(1,0) && this.hasFalling()) {
       this.block.x++;
       this.block.reserved = this.calculateReserverd();
     }
