@@ -85,12 +85,12 @@ export class Board {
     const leftEndCell = this.block.reserved.reduce((maxItem, curr) => {
       return curr[0] < maxItem[0] ? curr : maxItem;
     }, this.block.reserved[0]);
-    
     const inAnotherBlockLeft = !this.checkAvailableCell(leftEndCell[0], leftEndCell[1], false);
     if(inAnotherBlockLeft){
       if(lastKick === "right"){
         return false;
       }
+
       this.block.x = this.block.x + 1;
       this.block.reserved = this.calculateReserverd();
       return this.handleWallKick("left"); 
@@ -107,7 +107,6 @@ export class Board {
       return curr[0] > maxItem[0] ? curr : maxItem;
     }, this.block.reserved[0]);
     const inAnotherBlock = !this.checkAvailableCell(rightEndCell[0], rightEndCell[1], false);
-
     if(inAnotherBlock){
       if(lastKick === "left"){
         return false;
@@ -120,6 +119,7 @@ export class Board {
     if(rightEnd >= this.width){
       this.block.x = this.block.x - (rightEnd - this.width + 1);
       this.block.reserved = this.calculateReserverd();
+      return this.handleWallKick("right");
     }
     return true;
   }
@@ -141,7 +141,6 @@ export class Board {
       this.block.shape = this.block.shape.rotateLeft();
       this.block.reserved = this.calculateReserverd();
       const success = this.handleWallKick();
-      console.log("Rotate left", success);
       if(!success){
         return this.rotateBlockRight();
       }
