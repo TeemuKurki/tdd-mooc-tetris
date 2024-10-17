@@ -46,26 +46,31 @@ export class Board {
   }
 
   moveLeft() {
-    if (this.block.x > 0 && this.hasFalling()) {
+    if (this.block.x > 0 && !this.moveBlocked(-1,0) && this.hasFalling()) {
       this.block.x--;
       this.block.reserved = this.calculateReserverd();
     }
   }
   moveRight() {
-    if (this.block.x + this.block.icon[0].length < this.width && this.hasFalling()) {
+    if (this.block.x + this.block.icon[0].length < this.width && !this.moveBlocked(1,0) && this.hasFalling()) {
       this.block.x++;
       this.block.reserved = this.calculateReserverd();
     }
   }
 
-  tick() {
-    const aboveReservedCell = this.prevBlocks.some((prevBlock) => {
+  private moveBlocked(x?: number, y?: number): boolean {
+    return this.prevBlocks.some((prevBlock) => {
       return prevBlock.reserved.some(([px, py]) => {
         return this.block.reserved.some(([cx, cy]) => {
-          return cx === px && cy + 1 === py;
+          return cx + (x ?? 0) === px && cy + (y ?? 0) === py;
         });
       });
     });
+    
+  }
+
+  tick() {
+    const aboveReservedCell = this.moveBlocked(0, 1);
     const atBottom = this.block.reserved.some(([_x, y]) => y === this.height - 1);
 
 

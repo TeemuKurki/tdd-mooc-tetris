@@ -147,7 +147,7 @@ describe("Moving tetrominoes", () => {
         ...TTT....`
       );
     });
-    test.only("Do not move right through another tetromine", () => {
+    test("Do not move right through another tetromine", () => {
       board.drop(Tetromino.T_SHAPE);
       board.moveRight();
       board.moveRight();
@@ -161,7 +161,6 @@ describe("Moving tetrominoes", () => {
       move(3, () => {
         board.tick()
       })
-      board.moveRight();
       board.moveRight();
       board.moveRight();
       expect(board.toString()).to.equalShape(
