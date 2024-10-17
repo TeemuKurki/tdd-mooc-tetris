@@ -193,7 +193,7 @@ describe("The I shape", () => {
         ..........`
     );
   })
-  test.only("Will wall kick when rotated left", () => {
+  test("Will wall kick when rotated left", () => {
     const board = new Board(10, 6);
     board.drop(shape);
     board.tick();
