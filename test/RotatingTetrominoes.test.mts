@@ -17,6 +17,13 @@ function distinctOrientations(shape: RotatingShape) {
   return distinct;
 }
 
+function repeat(amount: number, cb: () => void) {
+  for (let i = 0; i < amount; i++) {
+    cb();
+  }
+}
+
+
 describe("The T shape", () => {
   const shape = Tetromino.T_SHAPE;
 
@@ -175,6 +182,46 @@ describe("The I shape", () => {
     );
   })
 
+  test("has 2 distinct orientations", () => {
+    expect(distinctOrientations(shape).size).to.equal(2);
+  });
+});
+
+describe("The O shape", () => {
+  const shape = Tetromino.O_SHAPE;
+
+  test("initial orientation", () => {
+    expect(shape.toString()).to.equalShape(
+      `.OO
+       .OO
+       ...`
+    );
+  });
+
+  test("cannot be rotated right/clockwise", () => {
+    expect(shape.rotateRight().toString()).to.equalShape(
+      `.OO
+       .OO
+       ...`
+    );
+  });
+
+  test("cannot be rotated left/counter-clockwise", () => {
+    expect(shape.rotateLeft().toString()).to.equalShape(
+      `.OO
+       .OO
+       ...`
+    );
+  });
+
+  test("has 1 distinct orientations", () => {
+    expect(distinctOrientations(shape).size).to.equal(1);
+  });
+});
+
+describe("Wallkick tests", () => {
+  const shape = Tetromino.I_SHAPE;
+
   test("Will wall kick when rotated right on left end", () => {
     const board = new Board(10, 6);
     board.drop(shape);
@@ -255,40 +302,31 @@ describe("The I shape", () => {
         ..........`
     );
   })
-  
-  test("has 2 distinct orientations", () => {
-    expect(distinctOrientations(shape).size).to.equal(2);
-  });
-});
-
-describe("The O shape", () => {
-  const shape = Tetromino.O_SHAPE;
-
-  test("initial orientation", () => {
-    expect(shape.toString()).to.equalShape(
-      `.OO
-       .OO
-       ...`
+  test("Will wallkick when hitting other tetromino", () => {
+    const board = new Board(10, 6);
+    repeat(2, () => {
+      board.drop(Tetromino.O_SHAPE);
+      repeat(4, () => {
+        board.moveRight();
+      })
+      repeat(5, () => {
+        board.tick();
+      });
+    })
+    board.drop(shape);
+    board.rotateBlockRight();
+    board.tick();
+    repeat(4, () => {
+      board.moveRight();
+    })
+    board.rotateBlockRight();
+    expect(board.toString()).to.equalShape(
+      `..........
+        ..........
+        ........OO
+        ....IIIIOO
+        ........OO
+        ........OO`
     );
-  });
-
-  test("cannot be rotated right/clockwise", () => {
-    expect(shape.rotateRight().toString()).to.equalShape(
-      `.OO
-       .OO
-       ...`
-    );
-  });
-
-  test("cannot be rotated left/counter-clockwise", () => {
-    expect(shape.rotateLeft().toString()).to.equalShape(
-      `.OO
-       .OO
-       ...`
-    );
-  });
-
-  test("has 1 distinct orientations", () => {
-    expect(distinctOrientations(shape).size).to.equal(1);
-  });
+  })
 });

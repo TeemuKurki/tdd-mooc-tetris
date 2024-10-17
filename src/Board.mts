@@ -77,10 +77,27 @@ export class Board {
       wallKickDone = true;
     }
     //wall kick right end
+    const rightEndCell = this.block.reserved.reduce((maxItem, curr) => {
+      return curr[0] > maxItem[0] ? curr : maxItem;
+    }, this.block.reserved[0]);
+    if(this.prevBlocks.some((prevBlock) => {
+      return prevBlock.reserved.some(([x, y]) => {
+        return rightEndCell[0] === x && rightEndCell[1] === y;
+      })
+    })){
+      if(wallKickDone){
+        return false;
+      }
+      this.block.x = this.block.x - 1;
+      this.block.reserved = this.calculateReserverd();
+      this.handleWallKick();
+    }
+
     const rightEnd = Math.max(...this.block.reserved.map(([x]) => x));
     if(wallKickDone){
       return false;
     }
+
     if(rightEnd >= this.width){
       this.block.x = this.block.x - (rightEnd - this.width + 1);
       this.block.reserved = this.calculateReserverd();
