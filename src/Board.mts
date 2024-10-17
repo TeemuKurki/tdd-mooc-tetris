@@ -1,6 +1,6 @@
 import { RotatingShape } from "./RotatingShape.mjs";
 
-type Block = { x: number; y: number; icon: string[][], reserved: [x: number, y: number][] };
+type Block = { x: number; y: number; icon: string[][], shape: RotatingShape, reserved: [x: number, y: number][] };
 
 export class Board {
   width: number;
@@ -13,7 +13,7 @@ export class Board {
     this.width = width;
     this.height = height;
     this.board = Array(height).fill(Array(width).fill("."));
-    this.block = { x: 0, y: 0, icon: [["."]], reserved: [] };
+    this.block = { x: 0, y: 0, icon: [["."]], shape: RotatingShape.fromString("."), reserved: [] };
     this.prevBlocks = [];
     this.falling = false;
   }
@@ -24,9 +24,9 @@ export class Board {
    */
   private calculateReserverd(): [x: number, y: number][] {
     const reserved: [x: number, y: number][] = [];
-    for (let i = 0; i < this.block.icon.length; i++) {
-      for (let j = 0; j < this.block.icon[i].length; j++) {
-        if (this.block.icon[i][j] !== ".") {
+    for (let i = 0; i < this.block.shape.height; i++) {
+      for (let j = 0; j < this.block.shape.width; j++) {
+        if (this.block.shape.toBlock()[i][j] !== ".") {
           reserved.push([this.block.x + j, this.block.y + i]);
         }
       }
@@ -40,7 +40,7 @@ export class Board {
     }
     this.falling = true;
     const center = Math.floor(this.width / 2) - (input.height - 1);
-    this.block = { x: center, y: 0, icon: input.toBlock(), reserved: [] };
+    this.block = { x: center, y: 0, icon: input.toBlock(), shape: input, reserved: [] };
     this.block.reserved = this.calculateReserverd();
   }
 
@@ -51,7 +51,7 @@ export class Board {
     }
   }
   moveRight() {
-    if (this.block.x + this.block.icon[0].length < this.width && !this.moveBlocked(1,0) && this.hasFalling()) {
+    if (this.block.x + this.block.shape.width < this.width && !this.moveBlocked(1,0) && this.hasFalling()) {
       this.block.x++;
       this.block.reserved = this.calculateReserverd();
     }
