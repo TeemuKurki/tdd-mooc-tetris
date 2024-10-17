@@ -1,6 +1,6 @@
 import { RotatingShape } from "./RotatingShape.mjs";
 
-type Block = { x: number; y: number; icon: string[][] };
+type Block = { x: number; y: number; icon: string[][], reserved: [x: number, y: number][] };
 
 export class Board {
   width: number;
@@ -13,9 +13,25 @@ export class Board {
     this.width = width;
     this.height = height;
     this.board = Array(height).fill(Array(width).fill("."));
-    this.block = { x: 0, y: 0, icon: [["."]] };
+    this.block = { x: 0, y: 0, icon: [["."]], reserved: [] };
     this.prevBlocks = [];
     this.falling = false;
+  }
+
+  /**
+   * Calculate the reserved cells for the current block.
+   * Loop through the icon and add the x and y coordinates to the reserved array.
+   */
+  private calculateReserverd(): [x: number, y: number][] {
+    const reserved: [x: number, y: number][] = [];
+    for (let i = 0; i < this.block.icon.length; i++) {
+      for (let j = 0; j < this.block.icon[i].length; j++) {
+        if (this.block.icon[i][j] !== ".") {
+          reserved.push([this.block.x + j, this.block.y + i]);
+        }
+      }
+    }
+    return reserved
   }
 
   drop(input: string | RotatingShape) {
@@ -25,25 +41,34 @@ export class Board {
     }
     this.falling = true;
     const center = Math.floor(this.width / 2) - (icon.length - 1);
-    this.block = { x: center, y: 0, icon };
+    this.block = { x: center, y: 0, icon, reserved: [] };
+    this.block.reserved = this.calculateReserverd();
   }
 
   moveLeft() {
     if (this.block.x > 0 && this.hasFalling()) {
       this.block.x--;
+      this.block.reserved = this.calculateReserverd();
     }
   }
   moveRight() {
     if (this.block.x + this.block.icon[0].length < this.width && this.hasFalling()) {
       this.block.x++;
+      this.block.reserved = this.calculateReserverd();
     }
   }
 
   tick() {
-    const abovePrevBlock = this.prevBlocks.some(
-      (prevBlock) => prevBlock.y - prevBlock.icon.filter((x) => x.every((c) => c === ".")).length === this.block.y + 1
-    );
-    if (this.block.y === this.height - this.block.icon.length || abovePrevBlock) {
+
+    const aboveReservedCell = this.prevBlocks.some((prevBlock) => {
+      return prevBlock.reserved.some(([px, py]) => {
+        return this.block.reserved.some(([cx, cy]) => {
+          return cx === px && cy + 1 === py;
+        });
+      });
+    });
+
+    if (this.block.y === this.height - this.block.icon.length || aboveReservedCell) {
       this.falling = false;
       while (this.block.icon.at(-1)?.every((s) => s === ".")) {
         const deleted = this.block.icon.splice(this.block.icon.length - 1, 1);
@@ -52,6 +77,7 @@ export class Board {
       this.prevBlocks.push(this.block);
     } else {
       this.block.y++;
+      this.block.reserved = this.calculateReserverd();
     }
   }
 

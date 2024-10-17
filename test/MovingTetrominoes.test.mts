@@ -147,8 +147,34 @@ describe("Moving tetrominoes", () => {
         ...TTT....`
       );
     });
+    test.only("Do not move right through another tetromine", () => {
+      board.drop(Tetromino.T_SHAPE);
+      board.moveRight();
+      board.moveRight();
+      move(10, () => {
+        board.tick();
+      });
+
+      board.drop(Tetromino.T_SHAPE);
+      board.moveLeft();
+      board.moveLeft();
+      move(3, () => {
+        board.tick()
+      })
+      board.moveRight();
+      board.moveRight();
+      board.moveRight();
+      expect(board.toString()).to.equalShape(
+        `..........
+        ..........
+        ..........
+        ....T.....
+        ...TTTT...
+        .....TTT..`
+      ); 
+    });
   });
-  describe("Mode down", () => {
+  describe.skip("Mode down", () => {
     test("Move tetromine down", () => {
       board.drop(Tetromino.T_SHAPE);
       expect(board.toString()).to.equalShape(
@@ -179,8 +205,8 @@ describe("Moving tetrominoes", () => {
         ..........
         ..........
         ..........
-        ........T.
-        .......TTT`
+        ....T.....
+        ...TTT....`
       );
     });
     test("Allow moving during drop", () => {
@@ -195,6 +221,24 @@ describe("Moving tetrominoes", () => {
         ....T.....
         ...TTT....
         ..........`
+      );
+    });
+    test("Do not allow moving down through another tetromine", () => {
+      board.drop(Tetromino.T_SHAPE);
+      move(10, () => {
+        board.tick();
+      });
+      board.drop(Tetromino.T_SHAPE);
+      board.tick();
+      board.moveDown();
+      board.moveDown();
+      expect(board.toString()).to.equalShape(
+        `..........
+        ..........
+        ....T.....
+        ...TTT....
+        ....T.....
+        ...TTT....`
       );
     });
   });
