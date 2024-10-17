@@ -356,4 +356,58 @@ describe("Wallkick tests", () => {
         OO........`
     );
   })
+  test("Will wallkick right end when hitting other tetromino left rotation", () => {
+    const board = new Board(10, 6);
+    repeat(2, () => {
+      board.drop(Tetromino.O_SHAPE);
+      repeat(4, () => {
+        board.moveRight();
+      })
+      repeat(5, () => {
+        board.tick();
+      });
+    })
+    board.drop(shape);
+    board.rotateBlockRight();
+    board.tick();
+    repeat(5, () => {
+      board.moveRight();
+    })
+    board.rotateBlockLeft();
+    expect(board.toString()).to.equalShape(
+      `..........
+        ..........
+        ........OO
+        ....IIIIOO
+        ........OO
+        ........OO`
+    );
+  })
+  test("Will wallkick left end when hitting other tetromino left rotation", () => {
+    const board = new Board(10, 6);
+    repeat(2, () => {
+      board.drop(Tetromino.O_SHAPE);
+      repeat(4, () => {
+        board.moveLeft();
+      })
+      repeat(5, () => {
+        board.tick();
+      });
+    })
+    board.drop(shape);
+    board.rotateBlockRight();
+    board.tick();
+    repeat(5, () => {
+      board.moveLeft();
+    })
+    board.rotateBlockLeft();
+    expect(board.toString()).to.equalShape(
+      `..........
+        ..........
+        OO........
+        OOIIII....
+        OO........
+        OO........`
+    );
+  })
 });
