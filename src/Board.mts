@@ -67,6 +67,8 @@ export class Board {
     this.tick()
   }
 
+
+
   private handleWallKick(): boolean{
     //wall kick left end
     let wallKickDone = false;
@@ -80,11 +82,12 @@ export class Board {
     const rightEndCell = this.block.reserved.reduce((maxItem, curr) => {
       return curr[0] > maxItem[0] ? curr : maxItem;
     }, this.block.reserved[0]);
-    if(this.prevBlocks.some((prevBlock) => {
+    const inAnotherBlock = this.prevBlocks.some((prevBlock) => {
       return prevBlock.reserved.some(([x, y]) => {
         return rightEndCell[0] === x && rightEndCell[1] === y;
       })
-    })){
+    })
+    if(inAnotherBlock){
       if(wallKickDone){
         return false;
       }
