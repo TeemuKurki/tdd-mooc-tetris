@@ -61,6 +61,13 @@ export class Board {
     this.tick()
   }
 
+  rotateBlockRight(){
+    if (this.hasFalling()) {
+      this.block.shape = this.block.shape.rotateRight();
+      this.block.reserved = this.calculateReserverd();
+    }
+  }
+  
   private moveBlocked(x?: number, y?: number): boolean {
     return this.prevBlocks.some((prevBlock) => {
       return prevBlock.reserved.some(([px, py]) => {
