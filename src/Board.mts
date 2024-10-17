@@ -1,6 +1,6 @@
 import { RotatingShape } from "./RotatingShape.mjs";
 
-type Block = { x: number; y: number; icon: string[][], shape: RotatingShape, reserved: [x: number, y: number][] };
+type Block = { x: number; y: number; shape: RotatingShape, reserved: [x: number, y: number][] };
 
 export class Board {
   width: number;
@@ -13,7 +13,7 @@ export class Board {
     this.width = width;
     this.height = height;
     this.board = Array(height).fill(Array(width).fill("."));
-    this.block = { x: 0, y: 0, icon: [["."]], shape: RotatingShape.fromString("."), reserved: [] };
+    this.block = { x: 0, y: 0, shape: RotatingShape.fromString("."), reserved: [] };
     this.prevBlocks = [];
     this.falling = false;
   }
@@ -40,7 +40,7 @@ export class Board {
     }
     this.falling = true;
     const center = Math.floor(this.width / 2) - (input.height - 1);
-    this.block = { x: center, y: 0, icon: input.toBlock(), shape: input, reserved: [] };
+    this.block = { x: center, y: 0,  shape: input, reserved: [] };
     this.block.reserved = this.calculateReserverd();
   }
 
@@ -117,9 +117,11 @@ export class Board {
   toString() {
     const board = this.createBoard();
     this.prevBlocks.forEach((block) => {
-      this.insertResrvedBlock(board, block.icon.flat().find(i => i !== ".")!, block.reserved);
+      const icon = block.shape.toBlock();
+      this.insertResrvedBlock(board, icon.flat().find(i => i !== ".")!, block.reserved);
     });
-    this.insertResrvedBlock(board, this.block.icon.flat().find(i => i !== ".")!, this.block.reserved);
+    const icon = this.block.shape.toBlock();
+    this.insertResrvedBlock(board, icon.flat().find(i => i !== ".")!, this.block.reserved);
     return board.map((b) => b.join("")).join("\n") + "\n";
   }
 }
