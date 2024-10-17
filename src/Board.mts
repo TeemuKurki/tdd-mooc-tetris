@@ -59,7 +59,6 @@ export class Board {
   }
 
   tick() {
-
     const aboveReservedCell = this.prevBlocks.some((prevBlock) => {
       return prevBlock.reserved.some(([px, py]) => {
         return this.block.reserved.some(([cx, cy]) => {
@@ -67,8 +66,10 @@ export class Board {
         });
       });
     });
+    const atBottom = this.block.reserved.some(([_x, y]) => y === this.height - 1);
 
-    if (this.block.y === this.height - this.block.icon.length || aboveReservedCell) {
+
+    if (atBottom || aboveReservedCell) {
       this.falling = false;
       while (this.block.icon.at(-1)?.every((s) => s === ".")) {
         const deleted = this.block.icon.splice(this.block.icon.length - 1, 1);
@@ -112,9 +113,9 @@ export class Board {
   toString() {
     const board = this.createBoard();
     this.prevBlocks.forEach((block) => {
-      this.insertBlock(board, block.icon, block.y, block.x);
+      this.insertResrvedBlock(board, block.icon.flat().find(i => i !== ".")!, block.reserved);
     });
-    this.insertBlock(board, this.block.icon, this.block.y, this.block.x);
+    this.insertResrvedBlock(board, this.block.icon.flat().find(i => i !== ".")!, this.block.reserved);
     return board.map((b) => b.join("")).join("\n") + "\n";
   }
 }
