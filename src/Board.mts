@@ -72,6 +72,24 @@ export class Board {
   private handleWallKick(): boolean{
     //wall kick left end
     let wallKickDone = false;
+    const leftEndCell = this.block.reserved.reduce((maxItem, curr) => {
+      return curr[0] < maxItem[0] ? curr : maxItem;
+    }, this.block.reserved[0]);
+    const inAnotherBlockLeft = this.prevBlocks.some((prevBlock) => {
+      return prevBlock.reserved.some(([x, y]) => {
+        return leftEndCell[0] === x && leftEndCell[1] === y;
+      })
+    })
+    if(inAnotherBlockLeft){
+      if(wallKickDone){
+        return false;
+      }
+      this.block.x = this.block.x + 1;
+      this.block.reserved = this.calculateReserverd();
+      this.handleWallKick(); 
+    }
+
+
     const leftEnd = Math.min(...this.block.reserved.map(([x]) => x));  
     if(leftEnd < 0){
       this.block.x = this.block.x + Math.abs(leftEnd);
