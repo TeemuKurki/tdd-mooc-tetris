@@ -160,6 +160,24 @@ export class Board {
     
   }
 
+  clearLine() {
+    const fullRows = this.board.map((row, rowIndex) => {
+      const full = row.every((cell, cellIndex) => {
+        return !this.checkAvailableCell(cellIndex, rowIndex);
+      });
+      if (full) {
+        return rowIndex;
+      }
+      return false
+    }).filter((row) => row !== false);
+    fullRows.forEach((row) => {
+      this.prevBlocks.forEach((block) => {
+        block.reserved = block.reserved.filter(([_x, y]) => y !== row);
+      });
+    });
+    return fullRows;
+  }
+
   tick() {
     const aboveReservedCell = this.moveBlocked(0, 1);
     const atBottom = this.block.reserved.some(([_x, y]) => y === this.height - 1);
@@ -168,6 +186,7 @@ export class Board {
     if (atBottom || aboveReservedCell) {
       this.falling = false;
       this.prevBlocks.push(this.block);
+      this.clearLine()
     } else {
       this.block.y++;
       this.block.reserved = this.calculateReserverd();
