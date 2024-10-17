@@ -35,13 +35,13 @@ export class Board {
   }
 
   drop(input: RotatingShape) {
-    const icon = typeof input === "string" ? [[input]] : input.rows.map((r) => r.split(""));
     if (this.falling) {
       throw new Error("already falling");
     }
+    const block = input.toBlock();
     this.falling = true;
-    const center = Math.floor(this.width / 2) - (icon.length - 1);
-    this.block = { x: center, y: 0, icon, reserved: [] };
+    const center = Math.floor(this.width / 2) - (block.length - 1);
+    this.block = { x: center, y: 0, icon: block, reserved: [] };
     this.block.reserved = this.calculateReserverd();
   }
 

@@ -38,4 +38,7 @@ export class RotatingShape {
   toString() {
     return this.rows.join("\n") + "\n";
   }
+  toBlock() {
+    return this.rows.map((row) => row.split(""))
+  }
 }
