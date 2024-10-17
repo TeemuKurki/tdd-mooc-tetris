@@ -45,13 +45,15 @@ export class Board {
   }
 
   moveLeft() {
-    if (this.block.x > 0 && !this.moveBlocked(-1,0) && this.hasFalling()) {
+    const leftEnd = Math.min(...this.block.reserved.map(([x]) => x));  
+    if (leftEnd > 0 && !this.moveBlocked(-1,0) && this.hasFalling()) {
       this.block.x--;
       this.block.reserved = this.calculateReserverd();
     }
   }
   moveRight() {
-    if (this.block.x + this.block.shape.width < this.width && !this.moveBlocked(1,0) && this.hasFalling()) {
+    const rightEnd = Math.max(...this.block.reserved.map(([x]) => x));
+    if (rightEnd + this.block.shape.width < this.width && !this.moveBlocked(1,0) && this.hasFalling()) {
       this.block.x++;
       this.block.reserved = this.calculateReserverd();
     }
@@ -64,6 +66,12 @@ export class Board {
   rotateBlockRight(){
     if (this.hasFalling()) {
       this.block.shape = this.block.shape.rotateRight();
+      this.block.reserved = this.calculateReserverd();
+    }
+  }
+  rotateBlockLeft(){
+    if (this.hasFalling()) {
+      this.block.shape = this.block.shape.rotateLeft();
       this.block.reserved = this.calculateReserverd();
     }
   }
