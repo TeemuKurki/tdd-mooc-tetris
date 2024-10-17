@@ -67,9 +67,9 @@ export class Board {
     this.tick()
   }
 
-  private checkAvailableCell(x: number, y: number): boolean {
+  private checkAvailableCell(x: number, y: number, checkInbounds?: boolean): boolean {
     const inBounds = x >= 0 && x < this.width && y >= 0 && y < this.height;
-    if (!inBounds) {
+    if (checkInbounds && !inBounds) {
       return false;
     }
     const inAnotherBlock = this.prevBlocks.some((prevBlock) => {
@@ -85,11 +85,8 @@ export class Board {
     const leftEndCell = this.block.reserved.reduce((maxItem, curr) => {
       return curr[0] < maxItem[0] ? curr : maxItem;
     }, this.block.reserved[0]);
-    const inAnotherBlockLeft = this.prevBlocks.some((prevBlock) => {
-      return prevBlock.reserved.some(([x, y]) => {
-        return leftEndCell[0] === x && leftEndCell[1] === y;
-      })
-    })
+    
+    const inAnotherBlockLeft = !this.checkAvailableCell(leftEndCell[0], leftEndCell[1], false);
     if(inAnotherBlockLeft){
       if(lastKick === "right"){
         return false;
@@ -109,12 +106,7 @@ export class Board {
     const rightEndCell = this.block.reserved.reduce((maxItem, curr) => {
       return curr[0] > maxItem[0] ? curr : maxItem;
     }, this.block.reserved[0]);
-    const inAnotherBlock = this.prevBlocks.some((prevBlock) => {
-      return prevBlock.reserved.some(([x, y]) => {
-
-        return rightEndCell[0] === x && rightEndCell[1] === y;
-      })
-    })
+    const inAnotherBlock = !this.checkAvailableCell(rightEndCell[0], rightEndCell[1], false);
 
     if(inAnotherBlock){
       if(lastKick === "left"){
