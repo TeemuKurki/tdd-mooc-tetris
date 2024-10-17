@@ -72,10 +72,20 @@ export class Board {
       this.block.shape = this.block.shape.rotateRight();
       this.block.reserved = this.calculateReserverd();
       let wallKickDone = false;
-      //wall kick right
+      //wall kick left end
       const leftEnd = Math.min(...this.block.reserved.map(([x]) => x));  
       if(leftEnd < 0){
         this.block.x = this.block.x + Math.abs(leftEnd);
+        this.block.reserved = this.calculateReserverd();
+        wallKickDone = true;
+      }
+      //wall kick right end
+      const rightEnd = Math.max(...this.block.reserved.map(([x]) => x));
+      if(rightEnd >= this.width){
+        if(wallKickDone) {
+          return false;
+        }
+        this.block.x = this.block.x - (rightEnd - this.width + 1);
         this.block.reserved = this.calculateReserverd();
         wallKickDone = true;
       }

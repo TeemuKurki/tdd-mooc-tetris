@@ -193,6 +193,28 @@ describe("The I shape", () => {
         ..........`
     );
   })
+  test.only("Will wall kick when rotated left", () => {
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockRight();
+    board.moveRight();
+    board.moveRight();
+    board.moveRight();
+    board.moveRight();
+    board.moveRight();
+    board.moveRight();
+    board.moveRight();
+    board.rotateBlockRight()
+    expect(board.toString()).to.equalShape(
+      `..........
+        ..........
+        ..........
+        ......IIII
+        ..........
+        ..........`
+    );
+  })
   
   test("has 2 distinct orientations", () => {
     expect(distinctOrientations(shape).size).to.equal(2);
