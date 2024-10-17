@@ -175,7 +175,7 @@ describe("The I shape", () => {
     );
   })
 
-  test("Will wall kick when rotated left end", () => {
+  test("Will wall kick when rotated right on left end", () => {
     const board = new Board(10, 6);
     board.drop(shape);
     board.tick();
@@ -193,7 +193,7 @@ describe("The I shape", () => {
         ..........`
     );
   })
-  test("Will wall kick when rotated right end", () => {
+  test("Will wall kick when rotated right on right end", () => {
     const board = new Board(10, 6);
     board.drop(shape);
     board.tick();
@@ -206,6 +206,46 @@ describe("The I shape", () => {
     board.moveRight();
     board.moveRight();
     board.rotateBlockRight()
+    expect(board.toString()).to.equalShape(
+      `..........
+        ..........
+        ..........
+        ......IIII
+        ..........
+        ..........`
+    );
+  })
+  test("Will wall kick when rotated left on left end", () => {
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockRight();
+    board.moveLeft();
+    board.moveLeft();
+    board.moveLeft();
+    board.rotateBlockLeft();
+    expect(board.toString()).to.equalShape(
+      `..........
+        ..........
+        ..........
+        IIII......
+        ..........
+        ..........`
+    );
+  })
+  test("Will wall kick when rotated left on right end", () => {
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockRight();
+    board.moveRight();
+    board.moveRight();
+    board.moveRight();
+    board.moveRight();
+    board.moveRight();
+    board.moveRight();
+    board.moveRight();
+    board.rotateBlockLeft()
     expect(board.toString()).to.equalShape(
       `..........
         ..........
