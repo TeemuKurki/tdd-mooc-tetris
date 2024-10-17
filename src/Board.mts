@@ -100,7 +100,7 @@ export class Board {
     if (this.hasFalling()) {
       this.block.shape = this.block.shape.rotateLeft();
       this.block.reserved = this.calculateReserverd();
-      return true
+      return this.handleWallKick();
     }
     return false;
   }
