@@ -34,7 +34,7 @@ export class Board {
     return reserved
   }
 
-  drop(input: string | RotatingShape) {
+  drop(input: RotatingShape) {
     const icon = typeof input === "string" ? [[input]] : input.rows.map((r) => r.split(""));
     if (this.falling) {
       throw new Error("already falling");

@@ -1,8 +1,10 @@
 import { describe, test } from "vitest";
 import { expect } from "chai";
 import { Tetromino } from "../src/Tetromino.mjs";
+import { Board } from "../src/Board.mjs";
+import type { RotatingShape } from "../src/RotatingShape.mjs";
 
-function distinctOrientations(shape) {
+function distinctOrientations(shape: RotatingShape) {
   const distinct = new Set();
   let goingRight = shape;
   let goingLeft = shape;
@@ -45,6 +47,21 @@ describe("The T shape", () => {
   test("has 4 distinct orientations", () => {
     expect(distinctOrientations(shape).size).to.equal(4);
   });
+
+  test("Can be rotated while falling", () => {
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+
+    expect(board.toString()).to.equalShape(
+      `..........
+        ....T.....
+        ...TTT....
+        ..........
+        ..........
+        ..........`
+    );
+  })
 });
 
 describe("The I shape", () => {
