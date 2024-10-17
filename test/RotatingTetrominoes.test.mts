@@ -219,6 +219,203 @@ describe("The O shape", () => {
   });
 });
 
+describe("The L Shape", () => {
+  test("initial orientation", () => {
+    const shape = Tetromino.L_SHAPE;
+    expect(shape.toString()).to.equalShape(
+      `LLL
+      L..
+      ...`
+    );
+  });
+  
+  test("can be rotated right/clockwise", () => {
+    const shape = Tetromino.L_SHAPE;
+    expect(shape.rotateRight().toString()).to.equalShape(
+      `.LL
+      ..L
+      ..L`
+    );
+  });
+  
+  test("can be rotated left/counter-clockwise", () => {
+    const shape = Tetromino.L_SHAPE;
+    expect(shape.rotateLeft().toString()).to.equalShape(
+      `L..
+      L..
+      LL.`
+    );
+  });
+  
+  test("has 4 distinct orientations", () => {
+    const shape = Tetromino.L_SHAPE;
+    expect(distinctOrientations(shape).size).to.equal(4);
+  });
+  
+  test("Can be rotated right while falling", () => {
+    const shape = Tetromino.L_SHAPE;
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockRight()
+    expect(board.toString()).to.equalShape(
+      `..........
+        ....LL....
+        .....L....
+        .....L....
+        ..........
+        ..........`
+    );
+  })
+})
+describe("The J Shape", () => {
+  test("initial orientation", () => {
+    const shape = Tetromino.J_SHAPE;
+    expect(shape.toString()).to.equalShape(
+      `JJJ
+      ..J
+      ...`
+    );
+  });
+  
+  test("can be rotated right/clockwise", () => {
+    const shape = Tetromino.J_SHAPE;
+    expect(shape.rotateRight().toString()).to.equalShape(
+      `..J
+      ..J
+      .JJ`
+    );
+  });
+  
+  test("can be rotated left/counter-clockwise", () => {
+    const shape = Tetromino.J_SHAPE;
+    expect(shape.rotateLeft().toString()).to.equalShape(
+      `JJ.
+      J..
+      J..`
+    );
+  });
+  
+  test("has 4 distinct orientations", () => {
+    const shape = Tetromino.J_SHAPE;
+    expect(distinctOrientations(shape).size).to.equal(4);
+  });
+  
+  test("Can be rotated right while falling", () => {
+    const shape = Tetromino.J_SHAPE;
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockRight()
+    expect(board.toString()).to.equalShape(
+      `..........
+        .....J....
+        .....J....
+        ....JJ....
+        ..........
+        ..........`
+    );
+  })
+})
+describe("The S Shape", () => {
+  test("initial orientation", () => {
+    const shape = Tetromino.S_SHAPE;
+    expect(shape.toString()).to.equalShape(
+      `.SS
+      SS.
+      ...`
+    );
+  });
+  
+  test("can be rotated right/clockwise", () => {
+    const shape = Tetromino.S_SHAPE;
+    expect(shape.rotateRight().toString()).to.equalShape(
+      `.S.
+      .SS
+      ..S`
+    );
+  });
+  
+  test("can be rotated left/counter-clockwise", () => {
+    const shape = Tetromino.S_SHAPE;
+    expect(shape.rotateLeft().toString()).to.equalShape(
+      `.S.
+      .SS
+      ..S`
+    );
+  });
+  
+  test("has 2 distinct orientations", () => {
+    const shape = Tetromino.S_SHAPE;
+    expect(distinctOrientations(shape).size).to.equal(2);
+  });
+  
+  test("Can be rotated right while falling", () => {
+    const shape = Tetromino.S_SHAPE;
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockRight()
+    expect(board.toString()).to.equalShape(
+      `..........
+        ....S.....
+        ....SS....
+        .....S....
+        ..........
+        ..........`
+    );
+  })
+})
+describe("The Z Shape", () => {
+  test("initial orientation", () => {
+    const shape = Tetromino.Z_SHAPE;
+    expect(shape.toString()).to.equalShape(
+      `ZZ.
+      .ZZ
+      ...`
+    );
+  });
+  
+  test("can be rotated right/clockwise", () => {
+    const shape = Tetromino.Z_SHAPE;
+    expect(shape.rotateRight().toString()).to.equalShape(
+      `..Z
+      .ZZ
+      .Z.`
+    );
+  });
+  
+  test("can be rotated left/counter-clockwise", () => {
+    const shape = Tetromino.Z_SHAPE;
+    expect(shape.rotateLeft().toString()).to.equalShape(
+      `..Z
+      .ZZ
+      .Z.`
+    );
+  });
+  
+  test("has 2 distinct orientations", () => {
+    const shape = Tetromino.Z_SHAPE;
+    expect(distinctOrientations(shape).size).to.equal(2);
+  });
+  
+  test("Can be rotated right while falling", () => {
+    const shape = Tetromino.Z_SHAPE;
+    const board = new Board(10, 6);
+    board.drop(shape);
+    board.tick();
+    board.rotateBlockRight()
+    expect(board.toString()).to.equalShape(
+      `..........
+        .....Z....
+        ....ZZ....
+        ....Z.....
+        ..........
+        ..........`
+    );
+  })
+})
+
 describe("Wallkick tests", () => {
   const shape = Tetromino.I_SHAPE;
 
