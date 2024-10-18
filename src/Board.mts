@@ -1,5 +1,7 @@
 import { RotatingShape } from "./RotatingShape.mjs";
 import { ScoreManager } from "./ScoreManager.js";
+import {  SuffleBag } from "./SuffleBag.js";
+import { Tetromino } from "./Tetromino.mjs";
 
 type Block = { x: number; y: number; shape: RotatingShape, reserved: [x: number, y: number][] };
 
@@ -11,6 +13,7 @@ export class Board {
   prevBlocks: Block[];
   falling: boolean;
   private observers: ScoreManager[];
+  suffleBag: SuffleBag;
   constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
@@ -19,6 +22,7 @@ export class Board {
     this.prevBlocks = [];
     this.falling = false;
     this.observers = [];
+    this.suffleBag = new SuffleBag([0, 1, 2, 3, 4, 5, 6]);
   }
 
   public addScoreObserver(observer: ScoreManager) {
@@ -33,6 +37,32 @@ export class Board {
     }
   }
 
+
+
+  getRandomBlock(): RotatingShape{
+    const val = this.suffleBag.draw();
+    switch (val) {
+      case 0:
+        return Tetromino.O_SHAPE
+      case 1:
+        return Tetromino.I_SHAPE
+      case 2:
+        return Tetromino.J_SHAPE
+      case 3:
+        return Tetromino.L_SHAPE
+      case 4:
+        return Tetromino.S_SHAPE
+      case 5:
+        return Tetromino.Z_SHAPE
+      default:
+        return Tetromino.T_SHAPE
+    }
+  }
+
+  public spawnBlock() {
+    const randomBlock = this.getRandomBlock();
+    this.drop(randomBlock);
+  }
   
   /**
    * Calculate the reserved cells for the current block.
