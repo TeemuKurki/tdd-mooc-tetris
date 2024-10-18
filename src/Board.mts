@@ -1,4 +1,5 @@
 import { RotatingShape } from "./RotatingShape.mjs";
+import { ScoreManager } from "./ScoreManager.js";
 
 type Block = { x: number; y: number; shape: RotatingShape, reserved: [x: number, y: number][] };
 
@@ -9,6 +10,7 @@ export class Board {
   block: Block;
   prevBlocks: Block[];
   falling: boolean;
+  private observers: ScoreManager[];
   constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
@@ -16,8 +18,22 @@ export class Board {
     this.block = { x: 0, y: 0, shape: RotatingShape.fromString("."), reserved: [] };
     this.prevBlocks = [];
     this.falling = false;
+    this.observers = [];
   }
 
+  public addScoreObserver(observer: ScoreManager) {
+    this.observers.push(observer);
+  }
+  public removeScoreObserver(observer: ScoreManager) {
+    this.observers = this.observers.filter(obs => obs.id !== observer.id);
+  }
+  private addScore(linesCleared: number): void {
+    for (const observer of this.observers) {
+      observer.addScore(linesCleared);
+    }
+  }
+
+  
   /**
    * Calculate the reserved cells for the current block.
    * Loop through the icon and add the x and y coordinates to the reserved array.
@@ -175,6 +191,7 @@ export class Board {
         block.reserved = block.reserved.filter(([_x, y]) => y !== row);
       });
     });
+    this.addScore(fullRows.length);
     return fullRows;
   }
 

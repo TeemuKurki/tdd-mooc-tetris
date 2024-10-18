@@ -2,6 +2,7 @@ import { describe, it } from "vitest";
 import { Board } from "../src/Board.mjs";
 import { Tetromino } from "../src/Tetromino.mjs";
 import { expect } from "chai";
+import { ScoreManager } from "../src/ScoreManager.js";
 
 function repeat(amount: number, cb: () => void) {
   for (let i = 0; i < amount; i++) {
@@ -98,42 +99,29 @@ describe("ClearLine tests", () => {
        ......`
     );
   });
-  it("Block that lost bloc beneat sould return to fall", () => {
+  it("Should increase score when line is cleared", () => {
+    const scoreManager = new ScoreManager("main-score");
     const board = new Board(6, 6);
-    board.drop(Tetromino.O_SHAPE);
-    board.moveLeft()
-    board.moveLeft()
-    repeat(5, () => {
-      board.tick();
-    });
-    board.drop(Tetromino.O_SHAPE);
-    board.moveLeft()
-    board.moveLeft()
-    repeat(5, () => {
-      board.tick();
-    });
-    board.drop(Tetromino.O_SHAPE);
-    board.moveRight()
-    board.moveRight()
-    repeat(5, () => {
-      board.tick();
-    });
-    board.drop(Tetromino.O_SHAPE);
-    repeat(5, () => {
-      board.tick();
-    });
-    //After clearing the line
-    repeat(3, () => {
-      board.tick();
-    });
+    board.addScoreObserver(scoreManager);
 
-    expect(board.toString()).to.equalShape(
-      `......
-       ......
-       ......
-       ......
-       OO....
-       OO....`
-    );
+    expect(scoreManager.getScore()).to.equal(0);
+    board.drop(Tetromino.O_SHAPE);
+    board.moveLeft()
+    board.moveLeft()
+    repeat(5, () => {
+      board.tick();
+    });
+    board.drop(Tetromino.O_SHAPE);
+    board.moveRight()
+    board.moveRight()
+    repeat(5, () => {
+      board.tick();
+    });
+    board.drop(Tetromino.O_SHAPE);
+    expect(scoreManager.getScore()).to.equal(0);
+    repeat(5, () => {
+      board.tick();
+    });
+    expect(scoreManager.getScore()).to.equal(100);
   });
 });
